@@ -1,0 +1,51 @@
+Tic Tac Toe
+
+What I "Started" working on:
+    confirmation from other player to end game
+
+Add a player switcher (player 1 from crosses to naughts and player 2 from naughts to crosses)
+    Easiest? way is the swap the object contents but keep the object names
+
+Make it so the leaderboard will show top 10 and additionaly your rank (regardless of if you're in the top ten)
+    Probably also add a !tictactoe myRank to get your rank
+    Maybe also a !tictactoe getRank <user.id> to get anothers rank
+        Also add instructions to get user.id (right click username and copy ID)
+Let people change it from [y] and [x] (row and column) to [x] and [y] (column and row)
+
+
+Countdown
+
+The large numbers are 25, 50, 75, 100
+The small numbers are 1 - 10
+There will be a minimum of 2 of the same type and a maximum of 4 of the same type
+Only addition, subtraction, multiplication and division within whole numbers is allowed (0.3, 0.25, 0.3, 0.15 chances)
+At least 1 addition and multiplication must occur, then additional operations will occur with a lower probability
+    Continue rolling random numbers until you get one smaller than the last
+    A maximum of 6 operations may occur
+A timer of 30 seconds will be set
+The closest number sent within those 30 seconds will be saved in an object with the users id, username and number
+Ideally all calculations will be on paper and no calculators are allowed
+Once the 30 seconds end, the player with the closest number will have to send their proof, ideally a photo and their victory will be confirmed
+once a different player types confirm
+
+
+Spelldown
+
+consonants will be selected by 1/21 intervals with some having slightly lower chances
+vowels will be selectedby 1/5 intervals
+The minimimum will be 3 consonants and 3 vowels up to 6 of one and 3 of the other
+
+The game will start by sending the letters in a code block
+Then there will be a 30 second timer
+All words containing the right letters that are sent within those 30 seconds will be saved under an object with user ID, word and word length
+There will be up to 5 objects saved. If there are more players, then only the longest words will be saved
+
+
+Pub quiz
+
+Just a typical quiz using an array of questions, questions must not repeat themselves
+Use a an object constructor to save players
+Use a reaction voting system or just type into DMs?
+
+Help
+A help message
