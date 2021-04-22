@@ -17,7 +17,7 @@ let totRounds = 0;
 
 module.exports = function tictactoe(msg, arg0, client) {
     if (arg0 == "leaderboard") return msg.channel.send(writeLeaderboard()); 
-    if (msg.channel.name != "tictactoe") {
+    if (msg.channel.name != "tic-tac-toe") {
         return msg.channel.send("Please play tic tac toe in a channel named ```tictactoe```")
     }
     //Checks if a game is already in progress
@@ -219,18 +219,18 @@ let RankingUpdate = function() {
 }
 
 
-//What a fucking shitshow, but I can't be bothered to think of a better way
+//I guess this will do
 let writeLeaderboard = function() {
     RankingUpdate();
     let arr = [];
     let str = "";
     for (x in Leaderboard) {
-        if (typeof Leaderboard[x] == "object" && x != "Player") {
+        if (x != "Player" && !(Leaderboard[x] instanceof Array)) {
             arr.push([Leaderboard[x].rank, Leaderboard[x].username, Leaderboard[x].wins, Leaderboard[x].gamesPlayed])
         }
     }
+    console.log(arr)
     arr.sort((a, b) => a[0] - b[0]);
-    arr.shift();
     for (let x = 0; x < 10 && x < arr.length; x++) {
         str += "**" + arr[x][1] + "**: rank " + arr[x][0] + "\nwins: " + arr[x][2] + ", Games played: " + arr[x][3] + "\n"
     }
