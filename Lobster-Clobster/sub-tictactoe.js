@@ -14,6 +14,7 @@ let board = [];
 let checkBoard = [];
 let round = 0;
 let totRounds = 0;
+let confirmQ = [false, ""];
 
 module.exports = function tictactoe(msg, arg0, client) {
     if (arg0 == "leaderboard") return msg.channel.send(writeLeaderboard()); 
@@ -35,9 +36,25 @@ module.exports = function tictactoe(msg, arg0, client) {
             else message.channel.send("A game has already been registered")
         }
         //This is for ending the game after it has been initialised, requires both players name
-        if (message.content == "end game" && (message.author.username == player1.username || message.author.username == player2.username) && player2.username.length > 1) {
-            message.channel.send("Game ended early\nEach players wins and games played will still be added to the leaderboard");
-            endGame(client, listen);
+        if (confirmQ[0]) {
+            if (message.channel.author == eval(confirmQ[1] + ".username")) {
+                message.channel.send("Game ended early\nEach players wins and games played will still be added to the leaderboard");
+                endGame(client, listen);
+            }
+            else {
+                message.channel.send("Confirmation message wasn't sent, the game will continue")
+            }
+        }
+        else if (message.content == "end game"  && player2.username.length > 1) {
+            confirmQ[0] = true;
+            if (message.author.username == player1.username) {
+                confirmQ[1] = "player2";
+                message.channel.send(player2 + ", please write `confirm` to end the game"); 
+            }
+            if (message.author.username == player2.username) {
+                confirmQ[1] = "player1";
+                message.channel.send(player1 + ", please write `confirm` to end the game")
+            }
         }
         //Requirements for a game to start
         if (!Init) {
@@ -219,7 +236,7 @@ let RankingUpdate = function() {
 }
 
 
-//I guess this will do
+//I guess this will have to do
 let writeLeaderboard = function() {
     RankingUpdate();
     let arr = [];
