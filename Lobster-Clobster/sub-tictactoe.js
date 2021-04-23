@@ -172,30 +172,33 @@ let winCheck = function(message, client, listen) {
     else if (board.every(x => x.every(y => y != ":blue_square:"))) return winnerAnn(message, player1, client, listen, true);
 
     //Writes whose turn it is; Moved here from playerXTurn, so that it won't be written after the games finishes
-    else message.channel.send(`It is now ${eval(turn + ".username")}'s turn`);
+    else message.channel.send(`It is now **${eval(turn + ".username")}'s** turn`);
 }
 
 
 //Announces winner and does other stuff
 let winnerAnn = function(message, player, client, listen, isTie) {
     if (!isTie) {
-    message.channel.send("Congratulations " + player.username + "! You won!");
+    message.channel.send("Congratulations **" + player.username + "**! You won!");
     player.wins += 1;
     }
-    else message.channel.send("The board is now full and no one won, so this round ends as a tie!");
+    else message.channel.send("The board is now full and no one won, so this round ends as a **tie**!");
     if (round < totRounds) {
         message.channel.send("This round has now finished")
         turn = "player1";
+        let temp = player1;
+        player1 = player2;
+        player2 = temp;
         Initialisation(message.channel);
     }
     else {
         //Sends the final winner from a multi round game
         if (totRounds > 1) {
-            message.channel.send(`\n${player1.username} won ${player1.wins} out of ${totRounds} rounds
-${player2.username} won ${player2.wins} out of ${totRounds} rounds`);
+            message.channel.send(`\n**${player1.username}** won **${player1.wins}** out of **${totRounds}** rounds
+**${player2.username}** won **${player2.wins}** out of **${totRounds}** rounds`);
             if (player1.wins < player2.wins) message.channel.send(`That means that **${player2.username}** won the game!`);
             else if (player1.wins > player2.wins) message.channel.send(`That means that **${player1.username}** won the game!`);
-            else message.channel.send("That means that the game ends as a tie!");
+            else message.channel.send("That means that the game ends as a **tie**!");
         }
         message.channel.send("```Game finished```");
         endGame(client, listen)
