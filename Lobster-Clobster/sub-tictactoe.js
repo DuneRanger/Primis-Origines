@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const auth = require("./auth.json");
 const fs = require('fs');
 
-let Leaderboard = require("./leaderboard - tictactoe.json");
+let Leaderboard = require("./leaderboard-tictactoe.json");
 
 let bool = false;
 let Init = false;
@@ -223,7 +223,7 @@ let LeaderboardUpdate = function(player) {
     }
     Leaderboard[player.id].username = player.username;
     Leaderboard[player.id].rank = Leaderboard.scores.indexOf(Leaderboard[player.id].wins) + 1;
-    fs.writeFileSync("./leaderboard - tictactoe.json", JSON.stringify(Leaderboard));
+    fs.writeFileSync("./leaderboard-tictactoe.json", JSON.stringify(Leaderboard));
 }
 
 
@@ -232,7 +232,7 @@ let RankingUpdate = function() {
     for (x in Leaderboard) {
         if (typeof Leaderboard[x] == "object") Leaderboard[x].rank = Leaderboard.scores.indexOf(Leaderboard[x].wins) + 1;
     }
-    fs.writeFileSync("./leaderboard - tictactoe.json", JSON.stringify(Leaderboard));
+    fs.writeFileSync("./leaderboard-tictactoe.json", JSON.stringify(Leaderboard));
 }
 
 
