@@ -18,7 +18,7 @@ client.on('ready', () => {
 
 client.on('message', async message => {
 	if (!message.content.startsWith("!") || message.author.bot) return;
-
+	message.content = message.content.toLowerCase();
 	const args = message.content.slice("!".length).trim().split(/ +/g);
 	const command = args.shift().toLowerCase();
 
@@ -52,13 +52,15 @@ let helpMSG = function(message, args) {
 		message.channel.send(
 `\`\`\`!tictactoe leaderboard will send the leaderboard of the top 10 players and your position.
 To register as a player, you must type your *original* discord username (Not your current nickname!)
-Write "cancel" to cancel the game before registering players
-Write "end game" to end the game after registering users (Note: requires the other players confirmation)
+Write \`cancel\` to cancel the game before player2 is registered
+Write \`end game\` to end the game after registering users (Note: requires the other players confirmation)
 Another game cannot be started if one is already in progress
 Note:\`\`\``);
 	}
 	else {
-		message.channel.send("Only existing functions so far:\`\`\`\n!beep\n!ping\n!tictactoe\n!help tictactoe\`\`\`");
+		message.channel.send(
+`Existing commands:\`\`\`\n!beep\n!ping\n!tictactoe\t!tictactoe leaderboard\t!help tictactoe\`\`\`
+Please note that all commands are case insensitive (Capital letters don't matter)`);
 	}
 }
 
