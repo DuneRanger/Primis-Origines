@@ -1,7 +1,6 @@
-Tic Tac Toe
+Change most commands to /regex:/i to be case insensitive (and lazy)?
 
-What I "Started" working on:
-    confirmation from other player to end game
+Tic Tac Toe
 
 Add a player switcher (player 1 from crosses to naughts and player 2 from naughts to crosses)
     Easiest? way is the swap the object contents but keep the object names

@@ -37,24 +37,27 @@ module.exports = function tictactoe(msg, arg0, client) {
         }
         //This is for ending the game after it has been initialised, requires both players name
         if (confirmQ[0]) {
-            if (message.channel.author == eval(confirmQ[1] + ".username")) {
+            if (message.author.username == eval(confirmQ[1] + ".username") && message.content == "confirm") {
                 message.channel.send("Game ended early\nEach players wins and games played will still be added to the leaderboard");
                 endGame(client, listen);
             }
             else {
-                message.channel.send("Confirmation message wasn't sent, the game will continue")
+                message.channel.send("Confirmation message wasn't sent, the game will continue");
+                confirmQ = [false, ""];
+                return;
             }
         }
         else if (message.content == "end game"  && player2.username.length > 1) {
             confirmQ[0] = true;
             if (message.author.username == player1.username) {
                 confirmQ[1] = "player2";
-                message.channel.send(player2 + ", please write `confirm` to end the game"); 
+                message.channel.send(player2.username + ", please write `confirm` to end the game"); 
             }
-            if (message.author.username == player2.username) {
+            else if (message.author.username == player2.username) {
                 confirmQ[1] = "player1";
-                message.channel.send(player1 + ", please write `confirm` to end the game")
+                message.channel.send(player1.username + ", please write `confirm` to end the game")
             }
+            return;
         }
         //Requirements for a game to start
         if (!Init) {
