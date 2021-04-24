@@ -24,19 +24,19 @@ module.exports = function tictactoe(msg, command, arg, client) {
         else {
             if (Leaderboard[msg.author.id].input) Leaderboard[msg.author.id].input = 0;
             else Leaderboard[msg.author.id].input = 1;
-            return msg.channel.send("Your input method has been changed to " + eval("inpMethod" + Leaderboard[msg.author.id].input))
+            return msg.channel.send("Your input method has been changed to " + eval("inpMethod" + Leaderboard[msg.author.id].input));
         }
     }
     if (command == "leaderboard") return msg.channel.send(writeLeaderboard(msg.author.id));
     if (command == "myrank") return msg.channel.send(writeOwnPosition(msg.author.id));
     if (command == "getrank") return msg.channel.send(writePosition(arg));
     if (msg.channel.name != "tic-tac-toe") {
-        return msg.channel.send("Please play tic tac toe in a channel named ```tictactoe```")
+        return msg.channel.send("Please play tic tac toe in a channel named ```tictactoe```");
     }
     //Checks if a game is already in progress
     if (bool) return Init ? msg.channel.send("A game is already in progress") : msg.channel.send("A game is already being registered");
     bool = true;
-    msg.channel.send("Each player must send a message with their username to start the game")
+    msg.channel.send("Each player must send a message with their username to start the game");
     let listen = message => {
         if (message.channel.id != msg.channel.id || message.author.bot) return;
         //cancel before both players registration
@@ -45,7 +45,7 @@ module.exports = function tictactoe(msg, command, arg, client) {
                 message.channel.send("Game canceled");
                 endGame(client, listen);   
             }
-            else message.channel.send("A game has already been registered")
+            else message.channel.send("A game has already been registered");
         }
         //This is for getting the other players confirmation
         if (confirmQ[0]) {
@@ -68,7 +68,7 @@ module.exports = function tictactoe(msg, command, arg, client) {
             }
             else if (message.author.username == player2.username) {
                 confirmQ[1] = "player1";
-                message.channel.send(player1.username + ", please write `confirm` to end the game")
+                message.channel.send(player1.username + ", please write `confirm` to end the game");
             }
             return;
         }
@@ -94,7 +94,7 @@ module.exports = function tictactoe(msg, command, arg, client) {
             else if (player2.username.length > 1 && /^ *\d+ *$/.test(message.content)) {
                 if (message.content > 50 && message.content != 69) return message.channel.send("Please enter a number that is 50 or smaller");
                 totRounds = message.content;
-                Initialisation(message.channel)
+                Initialisation(message.channel);
             }
         }
         //checks that the game has started; It's else if, so that 1 player games work
