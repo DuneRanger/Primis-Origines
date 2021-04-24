@@ -15,9 +15,18 @@ let checkBoard = [];
 let round = 0;
 let totRounds = 0;
 let confirmQ = [false, ""];
+let inpMethod0 = "row first, then column";
+let inpMethod1 = "column first, then row";
 
 module.exports = function tictactoe(msg, command, arg, client) {
-    msg.content = msg.content.toLowerCase();
+    if (command == "changeinput") {
+        if (!Leaderboard.hasOwnProperty(msg.author.id)) return msg.channel.send("You need to finish at least 1 game to change your input method");
+        else {
+            if (Leaderboard[msg.author.id].input) Leaderboard[msg.author.id].input = 0;
+            else Leaderboard[msg.author.id].input = 1;
+            return msg.channel.send("Your input method has been changed to " + eval("inpMethod" + Leaderboard[msg.author.id].input))
+        }
+    }
     if (command == "leaderboard") return msg.channel.send(writeLeaderboard(msg.author.id));
     if (command == "myrank") return msg.channel.send(writeOwnPosition(msg.author.id));
     if (command == "getrank") return msg.channel.send(writePosition(arg));
@@ -31,16 +40,16 @@ module.exports = function tictactoe(msg, command, arg, client) {
     let listen = message => {
         if (message.channel.id != msg.channel.id || message.author.bot) return;
         //cancel before both players registration
-        if (message.content == "cancel") {
+        if (message.content.toLowerCase() == "cancel") {
             if (player2.username.length < 1) {
                 message.channel.send("Game canceled");
                 endGame(client, listen);   
             }
             else message.channel.send("A game has already been registered")
         }
-        //This is for ending the game after it has been initialised, requires both players name
+        //This is for getting the other players confirmation
         if (confirmQ[0]) {
-            if (message.author.username == eval(confirmQ[1] + ".username") && message.content == "confirm") {
+            if (message.author.username == eval(confirmQ[1] + ".username") && message.content.toLowerCase() == "confirm") {
                 message.channel.send("Game ended early\nEach players wins and games played will still be added to the leaderboard");
                 endGame(client, listen);
             }
@@ -50,7 +59,8 @@ module.exports = function tictactoe(msg, command, arg, client) {
                 return;
             }
         }
-        else if (message.content == "end game"  && player2.username.length > 1) {
+        //This is for ending the game after it has been initialised, requires both players confirmation
+        else if (message.content.toLowerCase() == "end game"  && player2.username.length > 1) {
             confirmQ[0] = true;
             if (message.author.username == player1.username) {
                 confirmQ[1] = "player2";
@@ -67,16 +77,22 @@ module.exports = function tictactoe(msg, command, arg, client) {
             if (message.content == message.author.username && player1.username.length < 1){
                 player1.username = message.author.username;
                 player1.id = message.author.id;
-                message.channel.send("Player 1 has been registered as " + player1.username);
+                str = "Player 1 has been registered as " + player1.username + "\nYour current input method is ";
+                if (!Leaderboard.hasOwnProperty(player1.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
+                else  str += eval("inpMethod" + Leaderboard[player1.id].input);
+                message.channel.send(str);
             }
             else if (message.content == message.author.username) {
                 player2.username = message.author.username;
                 player2.id = message.author.id;
-                message.channel.send("Player 2 has been registered as " + player2.username);
+                str = "Player 1 has been registered as " + player1.username + "\nYour current input method is ";
+                if (!Leaderboard.hasOwnProperty(player1.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
+                else  str += eval("inpMethod" + Leaderboard[player2.id].input);
+                message.channel.send(str);
                 message.channel.send("Now please enter the amount of rounds you will play");
             }
-            else if (player2.username.length > 1 && /^\d+$/.test(message.content)) {
-                if (message.content > 50) return message.channel.send("Please enter a number that is 50 or smaller");
+            else if (player2.username.length > 1 && /^ *\d+ *$/.test(message.content)) {
+                if (message.content > 50 && message.content != 69) return message.channel.send("Please enter a number that is 50 or smaller");
                 totRounds = message.content;
                 Initialisation(message.channel)
             }
