@@ -1,6 +1,6 @@
 Tic Tac Toe
 
-Nothing... for now
+A way for multiple games to be played on multiple servers (A problem for much later)
 
 Countdown
 
@@ -19,15 +19,12 @@ once a different player types confirm
 
 
 Spelldown
-
-consonants will be selected by 1/21 intervals with some having slightly lower chances
-vowels will be selectedby 1/5 intervals
-The minimimum will be 3 consonants and 3 vowels up to 6 of one and 3 of the other
+PROBLEM WITH CHECKING THE EXISTENCE OF A WORD. PROBABLY EASY, BUT I CAN'T BE BOTHERED RIGHT NOW, SINCE I HAVE OTHER POSSIBILITIES.
 
 The game will start by sending the letters in a code block
-Then there will be a 30 second timer
-All words containing the right letters that are sent within those 30 seconds will be saved under an object with user ID, word and word length
-There will be up to 5 objects saved. If there are more players, then only the longest words will be saved
+Then there will be a 35 second timer
+All words containing the right letters that are sent within those 35 seconds will be saved under an object with user ID, word(or latest 9 letter word)  and (time or Number of 9 letter words)
+There will be up to 5 objects saved. If there are more players, then only the players with the longest words will be saved
 
 
 Pub quiz
