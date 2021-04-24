@@ -20,7 +20,7 @@ once a different player types confirm
 
 Spelldown
 PROBLEM WITH CHECKING THE EXISTENCE OF A WORD. PROBABLY EASY, BUT I CAN'T BE BOTHERED RIGHT NOW, SINCE I HAVE OTHER POSSIBILITIES.
-
+NOTE TO SELF: JUST SEARCH IT UP AND ACCEPT THAT YOU'RE LAZY
 The game will start by sending the letters in a code block
 Then there will be a 35 second timer
 All words containing the right letters that are sent within those 35 seconds will be saved under an object with user ID, word(or latest 9 letter word)  and (time or Number of 9 letter words)
