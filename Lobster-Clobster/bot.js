@@ -54,6 +54,7 @@ let helpMSG = function(message, args) {
 \`\`\`!tictactoe leaderboard will send the information of the top 10 players and your current information.
 !tictactoe myRank will send  your current information
 !tictactoe getRank [user id]* will send that persons current information
+!tictactoe changeInput will change your input method to either row, then column, or column, then row
 *You can get someone's id by right-clicking their name and clicking 'Copy ID'
 \`\`\`Game info:
 \`\`\`To register as a player, you must type your *original* discord username (Not your current nickname!)
