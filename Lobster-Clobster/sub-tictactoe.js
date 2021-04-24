@@ -16,8 +16,11 @@ let round = 0;
 let totRounds = 0;
 let confirmQ = [false, ""];
 
-module.exports = function tictactoe(msg, arg0, client) {
-    if (arg0 == "leaderboard") return msg.channel.send(writeLeaderboard()); 
+module.exports = function tictactoe(msg, command, arg, client) {
+    msg.content = msg.content.toLowerCase();
+    if (command == "leaderboard") return msg.channel.send(writeLeaderboard(msg.author.id));
+    if (command == "myrank") return msg.channel.send(writeOwnPosition(msg.author.id));
+    if (command == "getrank") return msg.channel.send(writePosition(arg));
     if (msg.channel.name != "tic-tac-toe") {
         return msg.channel.send("Please play tic tac toe in a channel named ```tictactoe```")
     }
@@ -243,7 +246,7 @@ let RankingUpdate = function() {
 
 
 //I guess this will have to do
-let writeLeaderboard = function() {
+let writeLeaderboard = function(id) {
     RankingUpdate();
     let arr = [];
     let str = "";
@@ -252,11 +255,26 @@ let writeLeaderboard = function() {
             arr.push([Leaderboard[x].rank, Leaderboard[x].username, Leaderboard[x].wins, Leaderboard[x].gamesPlayed])
         }
     }
-    console.log(arr)
     arr.sort((a, b) => a[0] - b[0]);
     for (let x = 0; x < 10 && x < arr.length; x++) {
-        str += "**" + arr[x][1] + "**: rank " + arr[x][0] + "\nwins: " + arr[x][2] + ", Games played: " + arr[x][3] + "\n"
+        str += "**" + arr[x][1] + "**: \`rank " + arr[x][0] + "\`\nWins: " + arr[x][2] + ", Games played: " + arr[x][3] + "\n"
     }
-    console.log(Leaderboard);
+    if (Leaderboard.hasOwnProperty(id)) str += "\nYou are currently \`rank " + Leaderboard[id].rank + "\`\nWins: " + Leaderboard[id].wins + ", Games played: " + Leaderboard[id].gamesPlayed;
+    else str += "You are not on the leaderboard. If you think this is a mistake, please DM Dune Ranger#4123";
+    return str;
+}
+
+let writePosition = function(id) {
+    let str = "";
+    if (Leaderboard.hasOwnProperty(id)) str += Leaderboard[id].username + " is \`rank " + Leaderboard[id].rank + "\`\nWins: " + Leaderboard[id].wins + ", Games played: " + Leaderboard[id].gamesPlayed;
+    else str += "This person is not on the leaderboard. If you think this is a mistake, please DM Dune Ranger#4123";
+    return str;
+}
+
+let writeOwnPosition = function(id) {
+    RankingUpdate();
+    let str = "";
+    if (Leaderboard.hasOwnProperty(id)) str += "You are currently \`rank " + Leaderboard[id].rank + "\`\nWins: " + Leaderboard[id].wins + ", Games played: " + Leaderboard[id].gamesPlayed;
+    else str += "You are not on the leaderboard. If you think this is a mistake, please DM Dune Ranger#4123";
     return str;
 }

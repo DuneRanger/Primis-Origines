@@ -20,7 +20,7 @@ client.on('message', async message => {
 	if (!message.content.startsWith("!") || message.author.bot) return;
 	message.content = message.content.toLowerCase();
 	const args = message.content.slice("!".length).trim().split(/ +/g);
-	const command = args.shift().toLowerCase();
+	const command = args.shift();
 
 	if (command === "help") {
 		helpMSG(message, args);
@@ -32,7 +32,7 @@ client.on('message', async message => {
 	} else if (command === "beep") {
 		message.channel.send("Chce se mi srát");
 	} else if (command === "tictactoe") {
-    	tictactoe(message, args[0], client);
+    	tictactoe(message, args[0], args[1], client);
  	} else if (command === "countdown") {
 		countdown(message, args[0], args[1], client);
 	} else if (command === "spelldown") {
@@ -50,16 +50,22 @@ let restart = function(message) {
 let helpMSG = function(message, args) {
 	if (args[0] == "tictactoe") {
 		message.channel.send(
-`\`\`\`!tictactoe leaderboard will send the leaderboard of the top 10 players and your position.
-To register as a player, you must type your *original* discord username (Not your current nickname!)
-Write \`cancel\` to cancel the game before player2 is registered
-Write \`end game\` to end the game after registering users (Note: requires the other players confirmation)
+`Commands:
+\`\`\`!tictactoe leaderboard will send the information of the top 10 players and your current information.
+!tictactoe myRank will send  your current information
+!tictactoe getRank [user id]* will send that persons current information
+*You can get someone's id by right-clicking their name and clicking 'Copy ID'
+\`\`\`Game info:
+\`\`\`To register as a player, you must type your *original* discord username (Not your current nickname!)
+Write 'cancel' to cancel the game before player2 is registered
+Write 'end game' to end the game after registering users (Note: requires the other players confirmation)
 Another game cannot be started if one is already in progress
-Note:\`\`\``);
+\`\`\``);
 	}
 	else {
 		message.channel.send(
-`Existing commands:\`\`\`\n!beep\n!ping\n!tictactoe\t!tictactoe leaderboard\t!help tictactoe\`\`\`
+`Existing commands:\`\`\`\n!beep\n!ping\n!tictactoe\t!help tictactoe
+\`\`\`Each games help command will tell you more commands for the respective game
 Please note that all commands are case insensitive (Capital letters don't matter)`);
 	}
 }
