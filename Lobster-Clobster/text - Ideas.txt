@@ -1,6 +1,40 @@
 Tic Tac Toe
 
-A way for multiple games to be played on multiple servers (A problem for much later)
+A way for multiple games to be played on multiple servers at once(A problem for much later)
+
+
+Pub quiz
+
+Maybe make it so the game starts with a reaction to a message that the bot sends after every game?
+So the text channel can be bot only and players only have to react
+
+Just a typical quiz using an array of questions, questions must not repeat themselves
+Use a an object constructor to save players
+Use a reaction voting system
+Set a 10? second timer for every question, then get an array of players who reacted and send a message that time is up 
+
+
+Hangman
+
+Use a reaction to get all participating players
+One person will DM the bot a word, the others will guess        (for 2 - 10 players: 1, 1, 2, 2, 3, 5, 7, 10, 16)
+Math.ceil((Math.pow(players, 1.3)-2)/5) points to all guessers if they get it right,  Math.ceil(Math.pow(players/3, 1.65)/1.5) points  will be given to the word maker
+
+
+
+Spelldown
+PROBLEM WITH CHECKING THE EXISTENCE OF A WORD. PROBABLY EASY, BUT I CAN'T BE BOTHERED RIGHT NOW, SINCE I HAVE OTHER POSSIBILITIES.
+NOTE TO SELF: JUST SEARCH IT UP AND ACCEPT THAT YOU'RE LAZY
+The game will start by sending the letters in a code block
+Then there will be a 35 second timer
+All words containing the right letters that are sent within those 35 seconds will be saved under an object with user ID, word(or latest 9 letter word)  and (time or Number of 9 letter words)
+There will be up to 5 objects saved. If there are more players, then only the players with the longest words will be saved
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Straight up impossible
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Countdown
 
@@ -16,22 +50,3 @@ The closest number sent within those 30 seconds will be saved in an object with 
 Ideally all calculations will be on paper and no calculators are allowed
 Once the 30 seconds end, the player with the closest number will have to send their proof, ideally a photo and their victory will be confirmed
 once a different player types confirm
-
-
-Spelldown
-PROBLEM WITH CHECKING THE EXISTENCE OF A WORD. PROBABLY EASY, BUT I CAN'T BE BOTHERED RIGHT NOW, SINCE I HAVE OTHER POSSIBILITIES.
-NOTE TO SELF: JUST SEARCH IT UP AND ACCEPT THAT YOU'RE LAZY
-The game will start by sending the letters in a code block
-Then there will be a 35 second timer
-All words containing the right letters that are sent within those 35 seconds will be saved under an object with user ID, word(or latest 9 letter word)  and (time or Number of 9 letter words)
-There will be up to 5 objects saved. If there are more players, then only the players with the longest words will be saved
-
-
-Pub quiz
-
-Just a typical quiz using an array of questions, questions must not repeat themselves
-Use a an object constructor to save players
-Use a reaction voting system or just type into DMs?
-
-Help
-A help message
