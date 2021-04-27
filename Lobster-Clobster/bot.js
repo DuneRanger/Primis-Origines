@@ -37,8 +37,9 @@ client.on('message', async message => {
 		countdown(message, args[0], args[1], client);
 	} else if (command === "spelldown") {
 		spelldown(message, args[0], args[1], client);
-	} 
-
+	} else if (command === "quiz") {
+		quiz(message, args[0], args[1], client);
+	}
 });
 
 let restart = function(message) {
