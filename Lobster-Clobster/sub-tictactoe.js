@@ -7,7 +7,7 @@ let Leaderboard = require("./leaderboard-tictactoe.json");
 
 let bool = false;
 let Init = false;
-let player1 = {username: "", id: "", wins: 0, gamesPlayed: 0}, player2 = {username: "", id: "", wins: 0, gamesPlayed: 0};
+let player1 = {username: "", id: "", wins: 0, gamesPlayed: 0, input: 0}, player2 = {username: "", id: "", wins: 0, gamesPlayed: 0, input: 0};
 let turn = "player1";
 let Exp = (new RegExp(/^ *[123] +[123] *$/));
 let board = [];
@@ -18,7 +18,7 @@ let confirmQ = [false, ""];
 let inpMethod0 = "row first, then column";
 let inpMethod1 = "column first, then row";
 
-module.exports = function tictactoe(msg, command, arg, client) {
+module.exports = function tictactoe(msg, command, arg1, client) {
     if (command == "changeinput") {
         if (!Leaderboard.hasOwnProperty(msg.author.id)) return msg.channel.send("You need to finish at least 1 game to change your input method");
         else {
@@ -29,7 +29,7 @@ module.exports = function tictactoe(msg, command, arg, client) {
     }
     if (command == "leaderboard") return msg.channel.send(writeLeaderboard(msg.author.id));
     if (command == "myrank") return msg.channel.send(writeOwnPosition(msg.author.id));
-    if (command == "getrank") return msg.channel.send(writePosition(arg));
+    if (command == "getrank") return msg.channel.send(writePosition(arg1));
     if (msg.channel.name != "tic-tac-toe") {
         return msg.channel.send("Please play tic tac toe in a channel named ```tictactoe```");
     }
@@ -78,16 +78,22 @@ module.exports = function tictactoe(msg, command, arg, client) {
                 player1.username = message.author.username;
                 player1.id = message.author.id;
                 str = "Player 1 has been registered as " + player1.username + "\nYour current input method is ";
-                if (!Leaderboard.hasOwnProperty(player1.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
-                else  str += eval("inpMethod" + Leaderboard[player1.id].input);
+                if (Leaderboard.hasOwnProperty(player1.id)) {
+                    player1.input = Leaderboard[player1.id].input;
+                    str += eval("inpMethod" + Leaderboard[player1.id].input);
+                }
+                else (!Leaderboard.hasOwnProperty(player1.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
                 message.channel.send(str);
             }
             else if (message.content == message.author.username) {
                 player2.username = message.author.username;
                 player2.id = message.author.id;
-                str = "Player 1 has been registered as " + player1.username + "\nYour current input method is ";
-                if (!Leaderboard.hasOwnProperty(player1.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
-                else  str += eval("inpMethod" + Leaderboard[player2.id].input);
+                str = "Player 2 has been registered as " + player2.username + "\nYour current input method is ";
+                if (Leaderboard.hasOwnProperty(player2.id)) {
+                    player2.input = Leaderboard[player1.id].input;
+                    str += eval("inpMethod" + Leaderboard[player2.id].input);
+                }
+                else (!Leaderboard.hasOwnProperty(player2.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput"; 
                 message.channel.send(str);
                 message.channel.send("Now please enter the amount of rounds you will play");
             }
@@ -106,7 +112,8 @@ module.exports = function tictactoe(msg, command, arg, client) {
                 return;
             }
             //Checks for valid move and splits message
-            let args = message.content.split(/ +/);
+            let args = message.content.trim().split(/ +/);
+            if (eval(turn + ".input")) args.reverse();
             if (board[args[0]-1][args[1]-1] != ":blue_square:") {
                 return message.channel.send("Please enter a valid square\n", writeBoardState(message.channel));
             }

@@ -11,7 +11,7 @@ So the text channel can be bot only and players only have to react
 Just a typical quiz using an array of questions, questions must not repeat themselves
 Use a an object constructor to save players
 Use a reaction voting system
-Set a 10? second timer for every question, then get an array of players who reacted and send a message that time is up 
+Set a 10? second timer for every question, then get an array of players who reacted and send a message that time is up
 
 
 Hangman
