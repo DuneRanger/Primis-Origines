@@ -47,7 +47,7 @@ module.exports = function tictactoe(msg, command, arg1, client) {
             }
             else message.channel.send("A game has already been registered");
         }
-        //This is for getting the other players confirmation
+        //This is for getting the other players confirmation to end a registered game
         if (confirmQ[0]) {
             if (message.author.username == eval(confirmQ[1] + ".username") && message.content.toLowerCase() == "confirm") {
                 message.channel.send("Game ended early\nEach players wins and games played will still be added to the leaderboard");
@@ -74,6 +74,8 @@ module.exports = function tictactoe(msg, command, arg1, client) {
         }
         //Requirements for a game to start
         if (!Init) {
+            //Makes the player write their username to make sure they are a player
+            //Registers player 1 and sends their input method
             if (message.content == message.author.username && player1.username.length < 1){
                 player1.username = message.author.username;
                 player1.id = message.author.id;
@@ -85,6 +87,7 @@ module.exports = function tictactoe(msg, command, arg1, client) {
                 else str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
                 message.channel.send(str);
             }
+            //Registers player 2 and sends their input method
             else if (message.content == message.author.username) {
                 player2.username = message.author.username;
                 player2.id = message.author.id;
@@ -97,27 +100,30 @@ module.exports = function tictactoe(msg, command, arg1, client) {
                 message.channel.send(str);
                 message.channel.send("Now please enter the amount of rounds you will play");
             }
-            else if (player2.username.length > 1 && /^ *\d+ *$/.test(message.content)) {
+            //A bit long, but I'm not sure how else to do it
+            //Lets either player set the round amount
+            else if (player2.username.length > 1 && /^ *\d+ *$/.test(message.content) && (message.author.username == player2.username || message.author.username == player1.username)) {
                 if (message.content > 50 && message.content != 69) return message.channel.send("Please enter a number that is 50 or smaller");
                 totRounds = message.content;
                 Initialisation(message.channel);
             }
         }
-        //checks that the game has started; It's else if, so that 1 player games work
+        //Checks that the game has started; It's else if, so that 1 player games work
         else if (Init) {
+            //stops processing if the author isn't the current player
             if (message.author.username != eval(turn + ".username")) return;
             //Checks for correct formatting
             if (!Exp.test(message.content)) {
                 message.channel.send("Please enter a valid format, for example: ```1 3```(With 1 or more spaces seperating the numbers)");
                 return;
             }
-            //Checks for valid move and splits message
+            //Checks for a valid move and splits the message
             let args = message.content.trim().split(/ +/);
             if (eval(turn + ".input")) args.reverse();
             if (board[args[0]-1][args[1]-1] != ":blue_square:") {
                 return message.channel.send("Please enter a valid square\n", writeBoardState(message.channel));
             }
-            //Since we already know that the author is correct, here it just calls the suitable function
+            //Calls the suitable player function
             else eval(turn + "Turn(message.channel, args)");
 
             winCheck(message, client, listen);
@@ -127,7 +133,7 @@ module.exports = function tictactoe(msg, command, arg1, client) {
 }
 
 
-//Officially starts the game
+//Officially starts the game by resetting the board and sending a message
 let Initialisation = function(channel) {
     round++;
     Init = true;
@@ -138,12 +144,12 @@ let Initialisation = function(channel) {
     writeBoardState(channel);
 }
 
-//name
+//Literally just 1 line to send a message with the board
 let writeBoardState = function(channel) {
     channel.send(board.join("\n"));
 }
 
-//resets variables
+//resets variables and turns of the listener
 let endGame = function(client, listen) {
     bool = false;
     Init = false;
@@ -157,7 +163,7 @@ let endGame = function(client, listen) {
     client.off("message", listen);
 }
 
-//name
+//Processes player 1's turn
 let player1Turn = function(channel, args) {
     board[args[0]-1][args[1]-1] = ":regional_indicator_x:";
     checkBoard[args[0]-1][args[1]-1] = 1;
@@ -166,7 +172,7 @@ let player1Turn = function(channel, args) {
     
 }
 
-//name
+//Processes player 2's turn
 let player2Turn = function(channel, args) {
     board[args[0]-1][args[1]-1] = ":regional_indicator_o:";
     checkBoard[args[0]-1][args[1]-1] = 4;
@@ -202,7 +208,7 @@ let winCheck = function(message, client, listen) {
 }
 
 
-//Announces winner and does other stuff
+//Announces the winner, possibly start the next round and at the end of a multi-round game, sends a stat report
 let winnerAnn = function(message, player, client, listen, isTie) {
     if (!isTie) {
     message.channel.send("Congratulations **" + player.username + "**! You won!");
@@ -236,6 +242,8 @@ let winnerAnn = function(message, player, client, listen, isTie) {
 
 
 //That's a lot of Leaderboard
+//Either enters a new player, or updates an existing player in the leaderboard
+//Also stops people from farming wins by playing by themselves
 let LeaderboardUpdate = function(player) {
     if (player1.id == player2.id) return;
     else if (Leaderboard.hasOwnProperty(player.id)){
@@ -259,6 +267,7 @@ let LeaderboardUpdate = function(player) {
 }
 
 
+//Sorts array of scores and updates every players rank
 let RankingUpdate = function() {
     Leaderboard.scores.sort((a, b) => b - a);
     for (x in Leaderboard) {
@@ -268,7 +277,7 @@ let RankingUpdate = function() {
 }
 
 
-//I guess this will have to do
+//Returns a formatted string containing the top 10 and the message author's position on the leaderboard
 let writeLeaderboard = function(id) {
     RankingUpdate();
     let arr = [];
@@ -287,6 +296,8 @@ let writeLeaderboard = function(id) {
     return str;
 }
 
+
+//Returns a formatted string containing the position of a person on the leaderboard 
 let writePosition = function(id) {
     let str = "";
     if (Leaderboard.hasOwnProperty(id)) str += Leaderboard[id].username + " is \`rank " + Leaderboard[id].rank + "\`\nWins: " + Leaderboard[id].wins + ", Games played: " + Leaderboard[id].gamesPlayed;
@@ -294,6 +305,8 @@ let writePosition = function(id) {
     return str;
 }
 
+
+//Returns a formatted string containing the message author's position on the leaderboard
 let writeOwnPosition = function(id) {
     RankingUpdate();
     let str = "";
