@@ -82,7 +82,7 @@ module.exports = function tictactoe(msg, command, arg1, client) {
                     player1.input = Leaderboard[player1.id].input;
                     str += eval("inpMethod" + Leaderboard[player1.id].input);
                 }
-                else (!Leaderboard.hasOwnProperty(player1.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
+                else str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput";
                 message.channel.send(str);
             }
             else if (message.content == message.author.username) {
@@ -93,7 +93,7 @@ module.exports = function tictactoe(msg, command, arg1, client) {
                     player2.input = Leaderboard[player1.id].input;
                     str += eval("inpMethod" + Leaderboard[player2.id].input);
                 }
-                else (!Leaderboard.hasOwnProperty(player2.id)) str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput"; 
+                else str += inpMethod0 + "You can change your input method with the command: !tictactoe ChangeInput"; 
                 message.channel.send(str);
                 message.channel.send("Now please enter the amount of rounds you will play");
             }
