@@ -16,7 +16,7 @@ limit	integer 	max number of users to return   (1-100)	false	    25
 */
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const auth = require("./auth.json");
+const auth = require("../auth.json");
 //const fs = require('fs');        leaderboard TODO
 
 let bool = false;

@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const auth = require("./auth.json");
+const auth = require("../auth.json");
 const fs = require('fs');
 
-let Leaderboard = require("./leaderboard-tictactoe.json");
+let Leaderboard = require("../leaderboards/leaderboard-tictactoe.json");
 
 let bool = false;
 let Init = false;

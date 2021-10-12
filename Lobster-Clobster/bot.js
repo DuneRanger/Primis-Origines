@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const auth = require("./auth.json");
 const path = require("path");
-const ping = require("./sub-ping.js");
-const tictactoe = require("./sub-tictactoe.js");
-const countdown = require("./sub-countdown.js");
-const spelldown = require("./sub-spelldown.js");
+const ping = require("./games/sub-ping.js");
+const tictactoe = require("./games/sub-tictactoe.js");
+const countdown = require("./games/sub-countdown.js");
+const spelldown = require("./games/sub-spelldown.js");
 const ownerID = "306748338760318976";
 
 
